@@ -1,8 +1,7 @@
 function initCamera() {
-  //Uncomment and fill in the correct selectors below.
-  //capture($('<Your code here>'),
-  //        $('<Your code here>'),
-  //        $('<Your code here>'));
+  capture($('#camera-video'),
+          $('#camera-canvas'),
+          $('#camera-button'));
 }
 
 function capture(video, canvas, snapshotButton) {
@@ -24,6 +23,12 @@ function capture(video, canvas, snapshotButton) {
         canvas.attr('width', width);
         canvas.attr('height', height);
         ctx.drawImage(video[0], 0, 0, width, height);
+        canvas[0].toBlob(function(blob) {
+            var url = window.URL.createObjectURL(blob);
+            var profileImg = $("#photo");
+            profileImg.load(function() { window.URL.revokeObjectURL(url)});
+            $("#photo").attr("src", window.URL.createObjectURL(blob));
+        });
     });
   };
 
